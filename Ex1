@@ -1,0 +1,88 @@
+class IT_Event:
+
+    def __init__(self, name, baseprice, duration):
+        if not isinstance(name, str):
+            raise Exception("Error: Subject must be of type str")
+        else:
+            self.name = name
+
+        if not isinstance(baseprice, int | float):
+            raise Exception("Error: Baseprice must be a number")
+        else:
+            self.baseprice = baseprice
+
+        if not isinstance(duration, int):
+            raise Exception("Error: Duration must be of type int")
+        else:
+            self.duration = duration
+
+
+class Tickets:
+
+    def __init__(self, event, number):
+        self.factor = 1
+        self.tickets = []
+
+        if not isinstance(event, IT_Event):
+            raise Exception("Error: Event must be of type vent")
+        else:
+            self.event = event
+
+        if not isinstance(number, int):
+            raise Exception("Error: Number must be of type int")
+        else:
+            self.number = number
+
+        self.price = event.baseprice * self.factor
+        self.tickets.append(self)
+
+    def get_price(self):
+        return f'The price of your ticket is {self.price}'
+
+
+class RegularTicket(Tickets):
+
+    def __init__(self, event, number):
+        super().__init__(event, number)
+        self.factor = 1
+
+    def __str__(self):
+        return f'This is a regular ticket, its price is {self.price}, its number is {self.number}'
+
+
+class AdvanceTicket(Tickets):
+
+    def __init__(self, event, number):
+        super().__init__(event, number)
+        self.factor = 0.6
+
+    def __str__(self):
+        return f'This is an advance ticket, its price is {self.price}, its number is {self.number}'
+
+
+class StudentTicket(Tickets):
+
+    def __init__(self, event, number):
+        super().__init__(event, number)
+        self.factor = 0.5
+
+    def __str__(self):
+        return f'This is a student ticket, its price is {self.price}, its number is {self.number}'
+
+
+class LateTicket(Tickets):
+
+    def __init__(self, event, number):
+        super().__init__(event, number)
+        self.factor = 1.1
+
+    def __str__(self):
+        return f'This is a late ticket, its price is {self.price}, its number is {self.number}'
+
+
+def get_ticket_by_number(number):
+    for ticket in Tickets.tickets:
+        if ticket.number == number:
+            return ticket
+    else:
+        raise Exception("Error: Incorrect data")
