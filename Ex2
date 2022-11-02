@@ -1,0 +1,74 @@
+class Pizza:
+
+    def __init__(self, diameter, price, extra):
+        if not isinstance(diameter, int | float):
+            raise Exception('Error: diameter must be a number')
+        else:
+            self.diameter = diameter
+
+        if not isinstance(price, int | float):
+            raise Exception('Error: Price must be a number')
+        else:
+            self.price = price
+
+        if not isinstance(extra, list):
+            raise Exception('Error: Extra must be a list')
+        else:
+            self.extra = extra
+
+
+class MondayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Monday pizza'
+
+
+class TuesdayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Tuesday pizza'
+
+
+class WednesdayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Wednesday pizza'
+
+
+class ThursdayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Thursday pizza'
+
+
+class FridayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Friday pizza'
+
+
+class SaturdayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Saturday pizza'
+
+
+class SundayPizza(Pizza):
+
+    def __init__(self, diameter, price, extra):
+        super().__init__(diameter, price, extra)
+        self.type = 'Sunday pizza'
+
+
+class Order(MondayPizza, TuesdayPizza, WednesdayPizza, ThursdayPizza,
+            FridayPizza, SaturdayPizza, SundayPizza):
+
+    def get_order(self):
+        return f'Your pizza is {self.type}, its diameter {self.diameter},' \
+               f' its price {self.price}, with extra {self.extra}'
