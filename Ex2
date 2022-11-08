@@ -66,9 +66,23 @@ class SundayPizza(Pizza):
         self.type = 'Sunday pizza'
 
 
-class Order(MondayPizza, TuesdayPizza, WednesdayPizza, ThursdayPizza,
-            FridayPizza, SaturdayPizza, SundayPizza):
+def order(day, diameter, price, extra):
+    if not (1 <= day <= 7 and isinstance(day, int)):
+        raise Exception("Error: Day must be integer from 1 to 7")
+    elif day == 1:
+        return MondayPizza(diameter, price, extra)
+    elif day == 2:
+        return TuesdayPizza(diameter, price, extra)
+    elif day == 3:
+        return WednesdayPizza(diameter, price, extra)
+    elif day == 4:
+        return ThursdayPizza(diameter, price, extra)
+    elif day == 5:
+        return FridayPizza(diameter, price, extra)
+    elif day == 6:
+        return SaturdayPizza(diameter, price, extra)
+    else:
+        return SundayPizza(diameter, price, extra)
 
-    def get_order(self):
-        return f'Your pizza is {self.type}, its diameter {self.diameter},' \
-               f' its price {self.price}, with extra {self.extra}'
+
+my_order = order(1, 10, 200, 'Cheese')
