@@ -1,4 +1,7 @@
-class IT_Event:
+import json
+
+
+class ITEvent:
 
     def __init__(self, name, baseprice, duration):
         if not isinstance(name, str):
@@ -19,11 +22,11 @@ class IT_Event:
 
 class Tickets:
 
-    def __init__(self, event, number):
-        self.factor = 1
+    def __init__(self, event, number, factor=1):
+        self.factor = factor
         self.tickets = []
 
-        if not isinstance(event, IT_Event):
+        if not isinstance(event, ITEvent):
             raise Exception("Error: Event must be of type vent")
         else:
             self.event = event
@@ -42,9 +45,9 @@ class Tickets:
 
 class RegularTicket(Tickets):
 
-    def __init__(self, event, number):
+    def __init__(self, event, number, factor=1):
         super().__init__(event, number)
-        self.factor = 1
+        self.factor = factor
 
     def __str__(self):
         return f'This is a regular ticket, its price is {self.price}, its number is {self.number}'
@@ -52,9 +55,9 @@ class RegularTicket(Tickets):
 
 class AdvanceTicket(Tickets):
 
-    def __init__(self, event, number):
+    def __init__(self, event, number, factor=0.6):
         super().__init__(event, number)
-        self.factor = 0.6
+        self.factor = factor
 
     def __str__(self):
         return f'This is an advance ticket, its price is {self.price}, its number is {self.number}'
@@ -62,9 +65,9 @@ class AdvanceTicket(Tickets):
 
 class StudentTicket(Tickets):
 
-    def __init__(self, event, number):
+    def __init__(self, event, number, factor=0.5):
         super().__init__(event, number)
-        self.factor = 0.5
+        self.factor = factor
 
     def __str__(self):
         return f'This is a student ticket, its price is {self.price}, its number is {self.number}'
@@ -72,9 +75,9 @@ class StudentTicket(Tickets):
 
 class LateTicket(Tickets):
 
-    def __init__(self, event, number):
+    def __init__(self, event, number, factor=1.1):
         super().__init__(event, number)
-        self.factor = 1.1
+        self.factor = factor
 
     def __str__(self):
         return f'This is a late ticket, its price is {self.price}, its number is {self.number}'
@@ -86,3 +89,23 @@ def get_ticket_by_number(number):
             return ticket
     else:
         raise Exception("Error: Incorrect data")
+
+
+def serializing(path):
+    result = ""
+    with open(path, 'w') as file:
+        for ticket in Tickets.tickets:
+            result += ticket.serialize() + ' '
+    file.write(result)
+    return result
+
+
+def deserializing(path):
+    result = ""
+    with open(path, 'r') as file:
+        for jsontext in file:
+            jsonObject = json.loads(jsontext)
+            jsonEvent = jsonObject["event"]
+            event = ITEvent(jsonEvent["name"], jsonEvent["baseprice"], jsonEvent["duration"])
+            globals()[jsonObject["type"]](event, jsonObject["number"])
+    return result
