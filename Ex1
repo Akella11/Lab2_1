@@ -42,6 +42,31 @@ class Tickets:
     def get_price(self):
         return f'The price of your ticket is {self.price}'
 
+    def get_ticket_by_number(self, number):
+        for ticket in self.tickets:
+            if ticket.number == number:
+                return ticket
+        else:
+            raise Exception("Error: Incorrect data")
+
+    def serializing(self):
+        result = ""
+        with open('data.json', 'w') as file:
+            for ticket in self.tickets:
+                result += json.dump(ticket, file)
+        file.write(result)
+        return result
+
+    def deserializing(self):
+        result = ""
+        with open('data.json', 'r') as file:
+            for jsontext in file:
+                jsonobject = json.loads(jsontext)
+                jsonevent = jsonobject["event"]
+                event = ITEvent(jsonevent["name"], jsonevent["baseprice"], jsonevent["duration"])
+                globals()[jsonobject["type"]](event, jsonobject["number"])
+        return result
+
 
 class RegularTicket(Tickets):
 
@@ -83,34 +108,9 @@ class LateTicket(Tickets):
         return f'This is a late ticket, its price is {self.price}, its number is {self.number}'
 
 
-def get_ticket_by_number(number):
-    for ticket in Tickets.tickets:
-        if ticket.number == number:
-            return ticket
-    else:
-        raise Exception("Error: Incorrect data")
-
-
-def serializing():
-    result = ""
-    with open('data.json', 'w') as file:
-        for ticket in Tickets.tickets:
-            result += ticket.serialize() + ' '
-    file.write(result)
-    return result
-
-
-def deserializing():
-    result = ""
-    with open('data.json', 'r') as file:
-        for jsontext in file:
-            jsonobject = json.loads(jsontext)
-            jsonevent = jsonobject["event"]
-            event = ITEvent(jsonevent["name"], jsonevent["baseprice"], jsonevent["duration"])
-            globals()[jsonobject["type"]](event, jsonobject["number"])
-    return result
-
-
 my_event = ITEvent('Selenium Day Bangalore', 50, 2)
 my_ticket = LateTicket(my_event, 9897469764)
 print(my_ticket)
+print(my_ticket.get_ticket_by_number(9897469764))
+my_ticket.serializing()
+my_ticket.deserializing()
