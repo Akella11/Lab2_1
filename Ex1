@@ -27,7 +27,7 @@ class Tickets:
         self.tickets = []
 
         if not isinstance(event, ITEvent):
-            raise Exception("Error: Event must be of type vent")
+            raise Exception("Error: Event must be of type event")
         else:
             self.event = event
 
