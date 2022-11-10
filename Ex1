@@ -27,7 +27,7 @@ class Tickets:
         self.tickets = []
 
         if not isinstance(event, ITEvent):
-            raise Exception("Error: Event must be of type event")
+            raise Exception("Error: Event must be of type vent")
         else:
             self.event = event
 
@@ -104,8 +104,13 @@ def deserializing():
     result = ""
     with open('data.json', 'r') as file:
         for jsontext in file:
-            jsonObject = json.loads(jsontext)
-            jsonEvent = jsonObject["event"]
-            event = ITEvent(jsonEvent["name"], jsonEvent["baseprice"], jsonEvent["duration"])
-            globals()[jsonObject["type"]](event, jsonObject["number"])
+            jsonobject = json.loads(jsontext)
+            jsonevent = jsonobject["event"]
+            event = ITEvent(jsonevent["name"], jsonevent["baseprice"], jsonevent["duration"])
+            globals()[jsonobject["type"]](event, jsonobject["number"])
     return result
+
+
+my_event = ITEvent('Selenium Day Bangalore', 50, 2)
+my_ticket = LateTicket(my_event, 9897469764)
+print(my_ticket)
