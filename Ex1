@@ -49,17 +49,17 @@ class Tickets:
         else:
             raise Exception("Error: Incorrect data")
 
-    def serializing(self):
+    def serializing(self, path):
         result = ""
-        with open('data.json', 'w') as file:
+        with open(path, 'w') as file:
             for ticket in self.tickets:
                 result += json.dump(ticket, file)
         file.write(result)
         return result
 
-    def deserializing(self):
+    def deserializing(self, path):
         result = ""
-        with open('data.json', 'r') as file:
+        with open(path, 'r') as file:
             for jsontext in file:
                 jsonobject = json.loads(jsontext)
                 jsonevent = jsonobject["event"]
@@ -112,5 +112,5 @@ my_event = ITEvent('Selenium Day Bangalore', 50, 2)
 my_ticket = LateTicket(my_event, 9897469764)
 print(my_ticket)
 print(my_ticket.get_ticket_by_number(9897469764))
-my_ticket.serializing()
-my_ticket.deserializing()
+my_ticket.serializing('data.json')
+my_ticket.deserializing('data.json')
