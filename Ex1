@@ -36,7 +36,7 @@ class Tickets:
         else:
             self.number = number
 
-        self.price = event.baseprice * self.factor
+        self.price = event.baseprice
         self.tickets.append(self)
 
     def get_price(self):
@@ -73,6 +73,7 @@ class RegularTicket(Tickets):
     def __init__(self, event, number, factor=1):
         super().__init__(event, number)
         self.factor = factor
+        self.price *= self.factor
 
     def __str__(self):
         return f'This is a regular ticket, its price is {self.price}, its number is {self.number}'
@@ -83,6 +84,7 @@ class AdvanceTicket(Tickets):
     def __init__(self, event, number, factor=0.6):
         super().__init__(event, number)
         self.factor = factor
+        self.price *= self.factor
 
     def __str__(self):
         return f'This is an advance ticket, its price is {self.price}, its number is {self.number}'
@@ -93,6 +95,7 @@ class StudentTicket(Tickets):
     def __init__(self, event, number, factor=0.5):
         super().__init__(event, number)
         self.factor = factor
+        self.price *= self.factor
 
     def __str__(self):
         return f'This is a student ticket, its price is {self.price}, its number is {self.number}'
@@ -103,6 +106,7 @@ class LateTicket(Tickets):
     def __init__(self, event, number, factor=1.1):
         super().__init__(event, number)
         self.factor = factor
+        self.price *= self.factor
 
     def __str__(self):
         return f'This is a late ticket, its price is {self.price}, its number is {self.number}'
